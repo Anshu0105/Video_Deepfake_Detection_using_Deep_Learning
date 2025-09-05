@@ -1,49 +1,46 @@
-# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 *.egg-info/
 *.log
-
-# Virtual environments
 venv/
 env/
 .venv/
 .env
 
-# OS / IDE
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.log
+venv/
+env/
+.venv/
+.env
 .DS_Store
 *.swp
 .idea/
 .vscode/
-
-# Build / dist
 build/
+dist/\
 dist/
-
-# Django
 *.sqlite3
 *.pot
 *.pyc
 db.sqlite3
 /staticfiles/
 /media/
-
-# Deep Learning models / checkpoints
 *.h5
 *.pt
 *.ckpt
 *.onnx
-
-# Video / large data
 *.mp4
 *.avi
 *.mov
 *.mkv
 *.gif
-
-# Docker
 *.pid
 *.seed
 docker-compose.override.yml
