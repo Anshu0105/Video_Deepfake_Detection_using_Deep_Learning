@@ -1093,7 +1093,7 @@ def video_upload_page(request):
             import time
             video_file_ext = video_file.name.split('.')[-1]
             ts = int(time.time())
-            saved_video_file = f"uploaded_video_{ts}.{video_file_ext}"
+            saved_video_file = f"uploaded_videos_{ts}.{video_file_ext}"
             save_dir = os.path.join(settings.PROJECT_DIR, "uploaded_videos")
             os.makedirs(save_dir, exist_ok=True)
             video_save_path = os.path.join(save_dir, saved_video_file)
@@ -1107,3 +1107,25 @@ def video_upload_page(request):
             return redirect('ml_app:predict')
         else:
             return render(request, "video_upload.html", {"form": form})
+from django.shortcuts import render
+
+def audio_upload_view(request):
+    """
+    Handles audio upload and detection from the template.
+    """
+    from django.contrib import messages
+
+    context = {}
+
+    if request.method == "POST":
+        audio_file = request.FILES.get("audio_file", None)
+        if not audio_file:
+            messages.error(request, "No audio file uploaded.")
+            return render(request, "audio_detect.html", context)
+
+        # Run the detection using your utility
+        result, audio_file_url = detect_audio_file(audio_file, request=request)
+        context['result'] = result
+        context['audio_file_url'] = audio_file_url
+
+    return render(request, "audio_detect.html", context)

@@ -133,3 +133,9 @@ if DEBUG == False:
             },
         },
     }
+
+# AUDIO MEDIA SETTINGS FOR AUDIO UPLOAD/DETECT FEATURE
+AUDIO_MEDIA_ROOT = os.path.join(PROJECT_DIR, 'uploaded_audios')
+AUDIO_MEDIA_URL = "/audio/"
+if not os.path.exists(AUDIO_MEDIA_ROOT):
+    os.makedirs(AUDIO_MEDIA_ROOT)

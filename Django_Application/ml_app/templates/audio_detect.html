@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+.hero {
+    position: relative;
+    background: url("{% static 'images/hero-bg.jpg' %}") no-repeat center center/cover;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
+}
+.upload-container {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 3rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+}
+.upload-container .logo img {
+    max-width: 140px;
+    margin-bottom: 1.5rem;
+}
+.upload-container h2 {
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+audio {
+    margin-bottom: 1rem;
+    width: 100%;
+    display: none;
+}
+.file-drop-area {
+    border: 2px dashed #6c63ff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    margin-bottom: 0.8rem;
+}
+.file-drop-area:hover {
+    border-color: #4b42c1;
+}
+input[type="file"] {
+    display: none;
+}
+.file-label {
+    font-weight: 600;
+    color: #6c63ff;
+    cursor: pointer;
+    display: block;
+}
+.btn-primary {
+    background: linear-gradient(135deg, #6c63ff, #9b8cff);
+    border: none;
+    border-radius: 30px;
+    padding: 0.7rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    box-shadow: 0 4px 15px rgba(108, 99, 255, 0.4);
+    margin-top: 1rem;
+    width: 100%;
+}
+.btn-primary:hover {
+    background: linear-gradient(135deg, #574bdb, #7b6be8);
+}
+.result-box {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background: #f0f0f0;
+}
+.result-box p {
+    margin: 0.4rem 0;
+    font-weight: 600;
+}
+</style>
+
+<div class="hero">
+    <div class="upload-container">
+        <div class="logo"><img src="{% static 'images/logo1.png' %}" alt="Logo"></div>
+        <h2>Upload an Audio File</h2>
+        
+        <!-- Audio preview -->
+        <audio controls id="audio-preview">
+            <source src="" id="audio-source">
+            Your browser does not support the audio element.
+        </audio>
+
+        <!-- Audio upload form -->
+        <form method="POST" enctype="multipart/form-data" action="{% url 'ml_app:audio_upload' %}">
+    {% csrf_token %}
+    <div class="file-drop-area">
+        <label for="audio_file" class="file-label">📂 Choose an audio file (.wav or .mp3)</label>
+        <input type="file" id="audio_file" name="audio_file" accept=".wav,.mp3" required onchange="previewAudio(event)">
+    </div>
+    <button type="submit" class="btn btn-primary">Detect Audio Deepfake</button>
+</form>
+
+<audio controls id="audio-preview" style="display:none;">
+    <source src="" id="audio-source">
+</audio>
+
+{% if result %}
+<div class="result-box">
+    <h3>Detection Result:</h3>
+    <p>Label: {{ result.label }}</p>
+    <p>Confidence: {{ result.confidence }}%</p>
+    <audio controls>
+        <source src="{{ audio_file_url }}">
+    </audio>
+</div>
+{% endif %}
+
+<script>
+function previewAudio(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('audio-preview');
+    const source = document.getElementById('audio-source');
+    if (file) {
+        source.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+        preview.load();
+    }
+}
+</script>
+{% endblock %}

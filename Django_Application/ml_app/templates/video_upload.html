@@ -15,106 +15,119 @@
         content: "";
         position: absolute;
         inset: 0;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.55);
         z-index: 1;
     }
     .upload-container {
         position: relative;
         z-index: 2;
-        background: rgba(255, 255, 255, 0.95);
-        padding: 3rem 2.5rem;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-        max-width: 480px;
+        background: #fff;
+        padding: 2.5rem;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        max-width: 500px;
         width: 100%;
         text-align: center;
     }
     .upload-container .logo img {
-        max-width: 140px;
-        margin-bottom: 1.5rem;
+        max-width: 120px;
+        margin-bottom: 1rem;
     }
-    .upload-container h2 {
+    h2 {
         font-weight: 700;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         color: #333;
     }
     .form-group {
-        margin-bottom: 1.5rem;
-        text-align: left;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1px;
     }
-    label {
+    .custom-file-upload {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        padding: 3rem 1rem;
+        border: 2px dashed #6c63ff;
+        border-radius: 12px;
+        background: #fdfdff;
+        text-align: center;
+        font-size: 1.2rem;
         font-weight: 600;
-        display: block;
-        margin-bottom: 0.5rem;
-        color: #444;
+        color: #6c63ff;
+        cursor: pointer;
+        transition: border-color 0.3s ease, background 0.3s ease, transform 0.2s;
+    }
+    .custom-file-upload:hover {
+        border-color: #574bdb;
+        background: #f9f9ff;
+        transform: scale(1.02);
     }
     input[type="file"] {
         display: block;
         width: 100%;
-        padding: 0.5rem 0.75rem;
-        border: 1.5px solid #ccc;
-        border-radius: 8px;
-        font-size: 1rem;
+        padding: 3rem 1rem; /* increase height for visibility */
+        border: 2px dashed #6c63ff;
+        border-radius: 12px;
         cursor: pointer;
-        transition: border-color 0.3s ease;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        text-align: center;
+        background: #fdfdff;
+        position: relative;
+        z-index: 2;
+        opacity: 0; /* hide default text */
     }
-    input[type="file"]:focus {
-        outline: none;
-        border-color: #6c63ff;
-        box-shadow: 0 0 6px rgba(108, 99, 255, 0.5);
+    input[type="file"]::before {
+        content: "📂 Choose a file";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: #6c63ff;
+        font-weight: 600;
+        text-align: center;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+    }
+    video {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
     input[type="range"] {
-        -webkit-appearance: none;
         width: 100%;
-        height: 8px;
-        border-radius: 5px;
-        background: #ddd;
-        outline: none;
-        margin-top: 6px;
-        cursor: pointer;
-    }
-    input[type="range"]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        background: #6c63ff;
-        cursor: pointer;
-        transition: background 0.3s ease;
-        border: none;
-        margin-top: -7px;
-    }
-    input[type="range"]::-moz-range-thumb {
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        background: #6c63ff;
-        cursor: pointer;
-        border: none;
+        margin-top: 8px;
     }
     #slider-value {
-        font-weight: 700;
+        font-weight: 600;
         color: #6c63ff;
-        margin-left: 8px;
-        font-size: 1.1rem;
+        margin-left: 6px;
     }
     .btn-primary {
         background: linear-gradient(135deg, #6c63ff, #9b8cff);
         border: none;
         border-radius: 30px;
-        padding: 0.7rem 2rem;
-        font-size: 1.1rem;
+        padding: 0.7rem 1.8rem;
+        font-size: 1.05rem;
         font-weight: 600;
         color: #fff;
         cursor: pointer;
-        transition: background 0.3s ease;
-        box-shadow: 0 4px 15px rgba(108, 99, 255, 0.4);
-        margin-top: 1.5rem;
+        transition: transform 0.2s ease, background 0.3s ease;
         width: 100%;
+        margin-top: 1rem;
     }
     .btn-primary:hover {
+        transform: scale(1.03);
         background: linear-gradient(135deg, #574bdb, #7b6be8);
+        box-shadow: 0 0 12px rgba(108, 99, 255, 0.6);
     }
     .btn-back {
         display: inline-block;
@@ -122,7 +135,6 @@
         color: #6c63ff;
         font-weight: 600;
         text-decoration: none;
-        transition: color 0.3s ease;
     }
     .btn-back:hover {
         color: #453ec4;
@@ -134,28 +146,24 @@
     <div class="upload-container">
         <div class="logo"><img src="{% static 'images/logo1.png' %}" alt="Logo"></div>
         <h2>Upload a Video</h2>
-        <video width="100%" controls id="video-preview" style="margin-bottom: 1rem; display: none;">
+
+        <video width="100%" controls id="video-preview" style="display:none;">
             <source src="" id="video-source">
             Your browser does not support HTML5 video.
         </video>
+
         <form class="form" method="POST" enctype="multipart/form-data" id="video-upload-form" action="">
             {% csrf_token %}
             <div class="form-group">
-                {% if form.video_file.errors %}
-                    <input type="file" class="form-control is-invalid" id="video_file" name="video_file" required onchange="previewVideo(event)">
-                    <div class="invalid-feedback">
-                        {{ form.video_file.errors.as_text }}
-                    </div>
-                {% else %}
-                    <input type="file" class="form-control" id="video_file" name="video_file" required onchange="previewVideo(event)">
-                {% endif %}
+                <label for="upload_video_file" class="custom-file-upload">📂 Choose a file</label>
+                <input type="file" id="upload_video_file" name="upload_video_file" required onchange="previewVideo(event)">
             </div>
             <div class="form-group">
-                <input type="range" class="form-control-range" id="sequence_length" name="sequence_length" min="10" max="100" step="10" value="10">
+                <label for="sequence_length">Sequence Length:</label>
+                <input type="range" id="sequence_length" name="sequence_length" min="10" max="100" step="10" value="10">
                 <span id="slider-value">10</span>
             </div>
-            
-            <button type="submit" class="btn btn-primary">Upload</button>
+            <button type="submit" class="btn btn-primary">Upload & Analyze</button>
         </form>
         <a href="{% url 'ml_app:index' %}" class="btn-back">&larr; Back to Home</a>
     </div>
@@ -164,9 +172,8 @@
 <script>
     const slider = document.getElementById('sequence_length');
     const sliderValue = document.getElementById('slider-value');
-    slider.addEventListener('input', function() {
-        sliderValue.innerText = slider.value;
-    });
+    slider.addEventListener('input', () => sliderValue.innerText = slider.value);
+
     function previewVideo(event) {
         const file = event.target.files[0];
         const preview = document.getElementById('video-preview');
