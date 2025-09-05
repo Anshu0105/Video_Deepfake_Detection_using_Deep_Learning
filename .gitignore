@@ -1,46 +1,92 @@
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.egg-info/
-*.log
-venv/
-env/
-.venv/
-.env
+# Deepfake Video Detection using Deep Learning
 
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.egg-info/
-*.log
-venv/
-env/
-.venv/
-.env
-.DS_Store
-*.swp
-.idea/
-.vscode/
-build/
-dist/\
-dist/
-*.sqlite3
-*.pot
-*.pyc
-db.sqlite3
-/staticfiles/
-/media/
-*.h5
-*.pt
-*.ckpt
-*.onnx
-*.mp4
-*.avi
-*.mov
-*.mkv
-*.gif
-*.pid
-*.seed
-docker-compose.override.yml
+## 📌 Overview
+This project implements a **deepfake video detection system** using **ResNeXt (CNN)** for feature extraction and **LSTM (RNN)** for temporal sequence modeling.  
+The system can take a video as input, process frames, and predict whether the video is real or a deepfake.
+
+---
+
+## ⚙️ Features
+- Uses **ResNeXt** pretrained model for feature extraction.
+- Uses **LSTM** to capture temporal dependencies between frames.
+- Django web application for uploading and analyzing videos.
+- Docker support for easy deployment.
+- Works on both CUDA-enabled (NVIDIA GPU) and non-CUDA (CPU/AMD GPU) systems.
+- Git LFS support for handling large models and video files.
+
+---
+
+## 📂 Project Structure
+```
+Video_Deepfake_detection_using_deep_learning
+│
+├── Django Application/     # Web interface to upload & analyze videos
+├── Model Creation/         # Scripts for training the ResNeXt + LSTM model
+├── Documentation/          # Detailed documentation & notes
+├── github_assets/          # Images & GIFs for demos
+├── README.md               # Project documentation (this file)
+└── requirements.txt        # Python dependencies
+```
+
+---
+
+## 🚀 Installation & Setup
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/<your-username>/<repo-name>.git
+cd <repo-name>
+```
+
+### 2. Setup Python Environment
+It’s recommended to use a virtual environment:
+```bash
+python3 -m venv venv
+source venv/bin/activate   # Mac/Linux
+venv\Scripts\activate      # Windows
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the Django Application
+```bash
+cd "Django Application"
+python manage.py runserver
+```
+Now open your browser at: `http://127.0.0.1:8000/`
+
+---
+
+## 📊 Results
+The trained models achieved the following accuracies:
+
+| Model | Frames Processed | Accuracy |
+|-------|------------------|----------|
+| ResNeXt + LSTM (10 frames)  | 10  | ~84% |
+| ResNeXt + LSTM (60 frames)  | 60  | ~90% |
+| ResNeXt + LSTM (100 frames) | 100 | ~93% |
+
+---
+
+## 🖼️ Demo
+Here’s an example of the system detecting a fake video:
+
+![Demo](github_assets/fakegif.gif)
+
+---
+
+## 🤝 Contribution
+Contributions are welcome! Some areas to improve:
+- Improve model accuracy with new architectures.
+- Optimize for faster inference.
+- Batch processing for full video sequences.
+- Deploy to free cloud platforms (Heroku, Render, etc.).
+
+---
+
+## 📜 License
+This project is licensed under the **GPL v3** license.  
+See [LICENSE](LICENSE) for details.
