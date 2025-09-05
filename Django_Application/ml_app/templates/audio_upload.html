@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Audio/Video Deepfake Detection</h2>
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data" action="{% url 'ml_app:audio_upload' %}">
+  {% csrf_token %}
+  <label for="file">Choose an audio (.wav/.mp3) or video (.mp4/.mov/.avi) file:</label><br><br>
+  <input type="file" name="file" id="file" required><br><br>
+  <button type="submit">Detect</button>
+</form>
+{% endblock %}

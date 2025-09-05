@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Detection Result</h2>
+
+{% if result %}
+  <p><strong>Prediction:</strong> {{ result.label }}</p>
+  <p><strong>Confidence:</strong> {{ result.confidence }}%</p>
+{% else %}
+  <p>No result available.</p>
+{% endif %}
+
+<a href="{% url 'ml_app:audio_upload' %}">Analyze another file</a>
+{% endblock %}

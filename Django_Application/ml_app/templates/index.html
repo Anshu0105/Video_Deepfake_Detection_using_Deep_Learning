@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        height: 100%;
+        background-color: #f0f0f0;
+    }
+    .hero {
+        position: relative;
+        background-image: url('{% static "images/background1.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+    }
+    .hero::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1;
+    }
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+        padding: 20px;
+    }
+    .hero-content h1 {
+        font-weight: 600;
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+    .hero-content p {
+        font-weight: 400;
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+        color: #ddd;
+    }
+    .btn-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    .btn {
+        background: linear-gradient(135deg, #4caf50, #388e3c);
+        border: none;
+        color: white;
+        font-weight: 600;
+        padding: 15px 40px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: background 0.3s ease;
+        display: inline-block;
+        min-width: 120px;
+        text-align: center;
+    }
+    .btn:hover {
+        background: linear-gradient(135deg, #388e3c, #2e7d32);
+        text-decoration: none;
+        color: white;
+    }
+    .quit-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #ff4d4d;
+        border: none;
+        color: white;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        z-index: 10;
+        box-shadow: 0 4px 12px rgba(255, 77, 77, 0.5);
+        transition: background 0.3s ease;
+    }
+    .quit-btn:hover {
+        background: #e04343;
+    }
+    .logo {
+        position: fixed;
+        top: 100px;
+        image-align: center;
+        z-index: 10;
+    }
+    .logo img {
+        height: 50px;
+        width: auto;
+    }
+    @media (max-width: 480px) {
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+        .hero-content p {
+            font-size: 1rem;
+        }
+        .btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            min-width: 100px;
+        }
+        .quit-btn {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+        .logo img {
+            height: 40px;
+        }
+    }
+</style>
+
+<div class="logo">
+    <img src="{% static 'images/logo1.png' %}" alt="Logo">
+</div>
+
+<button class="quit-btn" onclick="quitPage()" aria-label="Quit this page">Quit</button>
+
+<section class="hero" role="main" aria-label="Landing page hero section">
+    <div class="hero-content">
+        <h1>Deepfake Detection</h1>
+        <p>Detect fake media with powerful Audio and Video deepfake detection models.</p>
+        <div class="btn-group" role="navigation" aria-label="Detection options">
+            <a href="{% url 'ml_app:audio_upload' %}" class="btn" role="button" aria-label="Audio Detection">Audio</a>
+            <a href="{% url 'ml_app:video_upload' %}" class="btn" role="button" aria-label="Video Detection">Video</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block js_cripts %}
+<script src="{% static 'js/script.js' %}"></script>
+<script>
+function quitPage() {
+    // Attempt to close the window, fallback to blank page
+    window.open('', '_self');
+    window.close();
+    setTimeout(function() { location.href='about:blank'; }, 100);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .hero {
+        position: relative;
+        background: url("{% static 'images/hero-bg.jpg' %}") no-repeat center center/cover;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+    .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+    .upload-container {
+        position: relative;
+        z-index: 2;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 3rem 2.5rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        max-width: 480px;
+        width: 100%;
+        text-align: center;
+    }
+    .upload-container .logo img {
+        max-width: 140px;
+        margin-bottom: 1.5rem;
+    }
+    .upload-container h2 {
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: #333;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+        text-align: left;
+    }
+    label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #444;
+    }
+    input[type="file"] {
+        display: block;
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1.5px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: border-color 0.3s ease;
+    }
+    input[type="file"]:focus {
+        outline: none;
+        border-color: #6c63ff;
+        box-shadow: 0 0 6px rgba(108, 99, 255, 0.5);
+    }
+    input[type="range"] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 8px;
+        border-radius: 5px;
+        background: #ddd;
+        outline: none;
+        margin-top: 6px;
+        cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #6c63ff;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        border: none;
+        margin-top: -7px;
+    }
+    input[type="range"]::-moz-range-thumb {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #6c63ff;
+        cursor: pointer;
+        border: none;
+    }
+    #slider-value {
+        font-weight: 700;
+        color: #6c63ff;
+        margin-left: 8px;
+        font-size: 1.1rem;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #6c63ff, #9b8cff);
+        border: none;
+        border-radius: 30px;
+        padding: 0.7rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        box-shadow: 0 4px 15px rgba(108, 99, 255, 0.4);
+        margin-top: 1.5rem;
+        width: 100%;
+    }
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #574bdb, #7b6be8);
+    }
+    .btn-back {
+        display: inline-block;
+        margin-top: 1rem;
+        color: #6c63ff;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    .btn-back:hover {
+        color: #453ec4;
+        text-decoration: underline;
+    }
+</style>
+
+<div class="hero">
+    <div class="upload-container">
+        <div class="logo"><img src="{% static 'images/logo1.png' %}" alt="Logo"></div>
+        <h2>Upload a Video</h2>
+        <video width="100%" controls id="video-preview" style="margin-bottom: 1rem; display: none;">
+            <source src="" id="video-source">
+            Your browser does not support HTML5 video.
+        </video>
+        <form class="form" method="POST" enctype="multipart/form-data" id="video-upload-form" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                {% if form.video_file.errors %}
+                    <input type="file" class="form-control is-invalid" id="video_file" name="video_file" required onchange="previewVideo(event)">
+                    <div class="invalid-feedback">
+                        {{ form.video_file.errors.as_text }}
+                    </div>
+                {% else %}
+                    <input type="file" class="form-control" id="video_file" name="video_file" required onchange="previewVideo(event)">
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <input type="range" class="form-control-range" id="sequence_length" name="sequence_length" min="10" max="100" step="10" value="10">
+                <span id="slider-value">10</span>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+        <a href="{% url 'ml_app:index' %}" class="btn-back">&larr; Back to Home</a>
+    </div>
+</div>
+
+<script>
+    const slider = document.getElementById('sequence_length');
+    const sliderValue = document.getElementById('slider-value');
+    slider.addEventListener('input', function() {
+        sliderValue.innerText = slider.value;
+    });
+    function previewVideo(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('video-preview');
+        const source = document.getElementById('video-source');
+        if (file) {
+            source.src = URL.createObjectURL(file);
+            preview.style.display = "block";
+            preview.load();
+        }
+    }
+</script>
+{% endblock %}
